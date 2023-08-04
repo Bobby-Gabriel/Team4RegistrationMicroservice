@@ -32,13 +32,13 @@ public class RegistrationMongoService implements RegistrationService {
 	}
 
 	@Override
-	public void addRegistration(Registration r) {
-		repo.save(r);
+	public Registration addRegistration(Registration r) {
+		return repo.save(r);
 	}
 
 	@Override
-	public void updateRegistration(Registration r) {
-		repo.save(r);
+	public Registration updateRegistration(Registration r) {
+		return repo.save(r);
 		
 	}
 }

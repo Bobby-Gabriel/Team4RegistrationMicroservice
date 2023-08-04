@@ -8,9 +8,9 @@ public interface RegistrationService {
 
 	Optional<Registration> getRegistrationById(String id);
 	
-	void addRegistration(Registration r);
+	Registration addRegistration(Registration r);
 	
-	void updateRegistration(Registration r);
+	Registration updateRegistration(Registration r);
 
 	void deleteRegistration(Registration r);
 

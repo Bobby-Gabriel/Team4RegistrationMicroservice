@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,12 +55,13 @@ public class RegistrationGateway {
 	@ResponseBody
 	public ResponseEntity<?> createRegistration(@RequestBody Registration register, HttpServletResponse response){
 	
-		registrationService.addRegistration(register);
+		Registration postedRegistration = registrationService.addRegistration(register);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(register.getId()).toUri();
-		ResponseEntity<?> responseEntity = ResponseEntity.created(location).build();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(location);
 		
-		return responseEntity;
+		return new ResponseEntity<>(postedRegistration, headers, HttpStatus.OK);
 	}
 	
 	
