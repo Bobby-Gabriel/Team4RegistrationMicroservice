@@ -6,7 +6,7 @@ public interface RegistrationService {
 
 	Iterable<Registration> getRegistrations();
 
-	Optional<Registration> getRegistrationById(String id);
+	Optional<Registration> getRegistrationById(long id);
 	
 	Registration addRegistration(Registration r);
 	
@@ -14,6 +14,6 @@ public interface RegistrationService {
 
 	void deleteRegistration(Registration r);
 
-	void deleteRegistrationById(String id);
+	void deleteRegistrationById(long id);
 
 }

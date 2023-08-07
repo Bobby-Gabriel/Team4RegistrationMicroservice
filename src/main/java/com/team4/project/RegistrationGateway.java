@@ -32,7 +32,7 @@ public class RegistrationGateway {
 
 
 	@Autowired
-	RegistrationMongoService registrationService;
+	RegistrationValet registrationService;
 
 	
 	@GetMapping
@@ -43,7 +43,7 @@ public class RegistrationGateway {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Optional<Registration> getOneSingleRegistration(@PathVariable String id, HttpServletResponse response) {
+	public Optional<Registration> getOneSingleRegistration(@PathVariable long id, HttpServletResponse response) {
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		return registrationService.getRegistrationById(id);
@@ -66,21 +66,21 @@ public class RegistrationGateway {
 	
 	
 	@PutMapping("/{registrationId}")
-	public ResponseEntity<?> putRegistration(@RequestBody Registration newR, @PathVariable String registrationId) {
+	public ResponseEntity<?> putRegistration(@RequestBody Registration newR, @PathVariable long registrationId) {
 		
-		if (!(newR.getId().equals(registrationId))) {
+		if (newR.getId() != registrationId) {
 			return ResponseEntity.badRequest().build();
 		}
 		registrationService.updateRegistration(newR);
 		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newR.getId()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 		ResponseEntity<?> responseEntity = ResponseEntity.created(location).build();
 		return responseEntity;
 	}
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteRegistrationById(@PathVariable String id){
+	public ResponseEntity<?> deleteRegistrationById(@PathVariable long id){
 	    
 		registrationService.deleteRegistrationById(id);
 		return ResponseEntity.ok().build();
