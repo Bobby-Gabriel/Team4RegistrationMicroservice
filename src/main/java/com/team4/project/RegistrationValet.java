@@ -6,10 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class RegistrationMongoService implements RegistrationService {
+public class RegistrationValet implements RegistrationService {
 
 	@Autowired
-	RegistrationMongoRepository repo;
+	RegistrationRepository repo;
 	
 	@Override
 	public Iterable<Registration> getRegistrations() {
@@ -17,12 +17,12 @@ public class RegistrationMongoService implements RegistrationService {
 	}
 
 	@Override
-	public Optional<Registration> getRegistrationById(String id) {
+	public Optional<Registration> getRegistrationById(long id) {
 		return repo.findById(id);
 	}
 
 	@Override
-	public void deleteRegistrationById(String id) {
+	public void deleteRegistrationById(long id) {
 		repo.deleteById(id);
 	}
 	
@@ -32,13 +32,13 @@ public class RegistrationMongoService implements RegistrationService {
 	}
 
 	@Override
-	public void addRegistration(Registration r) {
-		repo.save(r);
+	public Registration addRegistration(Registration r) {
+		return repo.save(r);
 	}
 
 	@Override
-	public void updateRegistration(Registration r) {
-		repo.save(r);
+	public Registration updateRegistration(Registration r) {
+		return repo.save(r);
 		
 	}
 }

@@ -6,6 +6,8 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -30,7 +32,7 @@ public class RegistrationGateway {
 
 
 	@Autowired
-	RegistrationMongoService registrationService;
+	RegistrationValet registrationService;
 
 	
 	@GetMapping
@@ -41,7 +43,7 @@ public class RegistrationGateway {
 	}
 	
 	@GetMapping(path = "/{id}")
-	public Optional<Registration> getOneSingleRegistration(@PathVariable String id, HttpServletResponse response) {
+	public Optional<Registration> getOneSingleRegistration(@PathVariable long id, HttpServletResponse response) {
 		
 		response.setStatus(HttpServletResponse.SC_OK);
 		return registrationService.getRegistrationById(id);
@@ -53,31 +55,32 @@ public class RegistrationGateway {
 	@ResponseBody
 	public ResponseEntity<?> createRegistration(@RequestBody Registration register, HttpServletResponse response){
 	
-		registrationService.addRegistration(register);
+		Registration postedRegistration = registrationService.addRegistration(register);
 		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(register.getId()).toUri();
-		ResponseEntity<?> responseEntity = ResponseEntity.created(location).build();
+		HttpHeaders headers = new HttpHeaders();
+		headers.setLocation(location);
 		
-		return responseEntity;
+		return new ResponseEntity<>(postedRegistration, headers, HttpStatus.OK);
 	}
 	
 	
 	@PutMapping("/{registrationId}")
-	public ResponseEntity<?> putRegistration(@RequestBody Registration newR, @PathVariable String registrationId) {
+	public ResponseEntity<?> putRegistration(@RequestBody Registration newR, @PathVariable long registrationId) {
 		
-		if (!(newR.getId().equals(registrationId))) {
+		if (newR.getId() != registrationId) {
 			return ResponseEntity.badRequest().build();
 		}
 		registrationService.updateRegistration(newR);
 		
-		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newR.getId()).toUri();
+		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
 		ResponseEntity<?> responseEntity = ResponseEntity.created(location).build();
 		return responseEntity;
 	}
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> deleteRegistrationById(@PathVariable String id){
+	public ResponseEntity<?> deleteRegistrationById(@PathVariable long id){
 	    
 		registrationService.deleteRegistrationById(id);
 		return ResponseEntity.ok().build();
