@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 
-
 @RequestMapping("/gateway/registrations")
 @RestController
 @CrossOrigin
@@ -39,6 +38,7 @@ public class RegistrationGateway {
 	public Iterable<Registration> getAllRegistrations(HttpServletResponse response) {
 		
 		response.setStatus(HttpServletResponse.SC_OK);
+
 		return registrationService.getRegistrations();
 	}
 	
@@ -46,8 +46,8 @@ public class RegistrationGateway {
 	public Optional<Registration> getOneSingleRegistration(@PathVariable long id, HttpServletResponse response) {
 		
 		response.setStatus(HttpServletResponse.SC_OK);
+
 		return registrationService.getRegistrationById(id);
-		
 	}
 	
 	
@@ -71,11 +71,11 @@ public class RegistrationGateway {
 		if (newR.getId() != registrationId) {
 			return ResponseEntity.badRequest().build();
 		}
+
 		registrationService.updateRegistration(newR);
-		
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().build().toUri();
-		ResponseEntity<?> responseEntity = ResponseEntity.created(location).build();
-		return responseEntity;
+
+		return ResponseEntity.created(location).build();
 	}
 	
 	
@@ -83,6 +83,7 @@ public class RegistrationGateway {
 	public ResponseEntity<?> deleteRegistrationById(@PathVariable long id){
 	    
 		registrationService.deleteRegistrationById(id);
+
 		return ResponseEntity.ok().build();
 	}
 	
@@ -90,6 +91,7 @@ public class RegistrationGateway {
 	public ResponseEntity<?> deleteRegistration(Registration r){
 	    
 		registrationService.deleteRegistration(r);
+
 		return ResponseEntity.ok().build();
 	}
 }

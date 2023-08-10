@@ -37,8 +37,8 @@ public class RegistrationValet implements RegistrationService {
 	}
 
 	@Override
-	public Registration updateRegistration(Registration r) {
-		return repo.save(r);
-		
+	public void updateRegistration(Registration r) {
+		repo.save(r);
+
 	}
 }
