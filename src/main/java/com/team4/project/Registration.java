@@ -70,7 +70,4 @@ public class Registration {
 		this.notes = notes;
 	}
 
-	
-	
-	
 }

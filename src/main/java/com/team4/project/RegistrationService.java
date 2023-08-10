@@ -10,7 +10,7 @@ public interface RegistrationService {
 	
 	Registration addRegistration(Registration r);
 	
-	Registration updateRegistration(Registration r);
+	void updateRegistration(Registration r);
 
 	void deleteRegistration(Registration r);
 
