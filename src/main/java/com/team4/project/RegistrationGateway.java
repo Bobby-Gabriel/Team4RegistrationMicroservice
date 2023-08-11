@@ -6,6 +6,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,8 @@ public class RegistrationGateway {
 
 
 	@Autowired
-	RegistrationValet registrationService;
+	@Qualifier("mockRegistrationService")
+	RegistrationService registrationService;
 
 	
 	@GetMapping
