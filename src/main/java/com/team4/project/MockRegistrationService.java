@@ -70,8 +70,11 @@ public class MockRegistrationService implements RegistrationService {
 			Registration registration = registrations.get(i);
 			if (registration.getId() == r.getId()) {
 				registrations.set(i, r);
+				return;
 			}
 		}
+		
+		addRegistration(r);
 		
 	}
 
